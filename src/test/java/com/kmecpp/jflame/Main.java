@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,20 +35,8 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		//GSON: 40ms
-		//ME 20ms
+		//JFlame 20ms
 		//MINIMAL: 15ms
-
-		//		HttpURLConnection conn = getUrlConnection(new URL(JSON_URL));
-		//		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		//
-		//		String content = "";
-		//		String line = "";
-		//		while ((line = br.readLine()) != null) {
-		//			content += line + "\n";
-		//		}
-
-		//		System.out.println(-2147483648 + -2147483648);
-		//		System.out.println(~2);
 
 		//Minimal JSON Parse Time: 260µs
 		//JFlame Parse Time: 360µs
@@ -59,7 +45,7 @@ public class Main {
 		//		String jsonObj = " { \"Hi1\" : \"Sup Bro\" } ";
 		//		String jsonArr = " [ \"Hi1\" ,  \"Sup Bro\", 10 ]";
 
-		String json = readFile("string.json");
+		String json = JSON_HUGE;//readFile("string.json");
 		System.out.println("Origin: " + json);
 		long start = System.currentTimeMillis();
 		JsonValue value = Json.parse(json);
@@ -154,21 +140,6 @@ public class Main {
 			sum += i;
 		}
 		return sum;
-	}
-
-	public static HttpURLConnection getUrlConnection(URL url) {
-		try {
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setReadTimeout(5000);
-			connection.setConnectTimeout(5000);
-			connection.setRequestProperty("User-Agent", "Mozilla/5.0");
-			connection.addRequestProperty("Content-Type", "application/json");
-			connection.addRequestProperty("Accept", "application/json");
-			return connection;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	public static String readFile(String filename) {
