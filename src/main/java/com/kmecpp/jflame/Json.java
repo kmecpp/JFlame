@@ -89,7 +89,7 @@ public final class Json {
 	 * @throws IOException
 	 *             if there was a problem posting to the URL
 	 */
-	public static String postToUrl(String url, JsonValue value) throws IOException {
+	public static String postJsonToUrl(String url, JsonValue value) throws IOException {
 		return JsonNetworkUtil.postJson(new URL(url), value);
 	}
 
