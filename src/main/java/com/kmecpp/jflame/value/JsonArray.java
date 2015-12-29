@@ -12,6 +12,10 @@ public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonV
 
 	private List<JsonValue> values;
 
+	public JsonArray() {
+		this(new ArrayList<JsonValue>());
+	}
+
 	public JsonArray(ArrayList<JsonValue> values) {
 		this.values = values;
 	}

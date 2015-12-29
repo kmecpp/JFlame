@@ -4,8 +4,12 @@
 	<groupId>com.kmecpp</groupId>
 	<artifactId>jflame</artifactId>
 	<version>1.0</version>
+	<packaging>jar</packaging>
+
 	<name>JFlame</name>
 	<description>A lightweight and extrmely fast JSON parser and generator written in Java</description>
+	<url>http://kmecpp.com</url>
+
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -27,4 +31,21 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://raw.githubusercontent.com/kmecpp/JFlame/master/LICENSE</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>kmecpp</id>
+			<name>Kevin Phillips</name>
+			<email>kmecpp@gmail.com</email>
+			<url>http://kmecpp.com</url>
+		</developer>
+	</developers>
 </project>

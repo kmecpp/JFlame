@@ -1,7 +1,6 @@
 package com.kmecpp.jflame;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 
 import com.kmecpp.jflame.value.JsonArray;
 import com.kmecpp.jflame.value.JsonBoolean;
@@ -35,7 +34,7 @@ public final class JsonParser {
 	public JsonValue parse() {
 		JsonValue result = readValue();
 
-		//		//Verify no remaining text
+		//Verify no remaining text
 		skipWhitespace();
 		if (hasNext()) throw expected("END_OF_FILE");
 
@@ -60,18 +59,19 @@ public final class JsonParser {
 
 		next(); //Skip indicator (need to in order to skip whitespace)
 		skipWhitespace();
-		if (hasNext() && characters[index] == '}') {
+		if (characters[index] == '}') {
 			next();
 			return object;
 		}
 
 		do {
 			skipWhitespace();//Before name
-			String name = readString().asString();
+			final String name = readString().asString();
 			skipWhitespace();//After name
 			if (!readChar(':')) throw expected("NAME_SEPARATOR");
 
 			object.add(name, readValue());//readValue() skips whitespace
+
 			skipWhitespace(); //After value
 		} while (readChar(','));//This moves cursor passed end-object on last iteration
 		if (characters[index - 1] != '}') throw expected("END_OBJECT");
@@ -80,7 +80,7 @@ public final class JsonParser {
 	}
 
 	private JsonArray readArray() {
-		JsonArray array = new JsonArray(new ArrayList<JsonValue>());
+		JsonArray array = new JsonArray();
 
 		next(); //Skip indicator (need to in order to skip whitespace)
 		skipWhitespace();
@@ -118,67 +118,77 @@ public final class JsonParser {
 	}
 
 	private JsonString readString() {
-		next(); //Skip indicator
-
 		StringBuilder sb = new StringBuilder();
+		next();
 		while (characters[index] != '"') {
-			if (characters[index] == '\\') {
-				next();
-				switch (characters[index]) {
-				case '"':
-				case '/':
-				case '\\':
-					sb.append(characters[index]);
-					break;
-				case 'b':
-					sb.append('\b');
-					break;
-				case 'f':
-					sb.append('\f');
-					break;
-				case 'n':
-					sb.append('\n');
-					break;
-				case 'r':
-					sb.append('\r');
-					break;
-				case 't':
-					sb.append('\t');
-					break;
-				case 'u':
-					//SIMILAR PERFORMANCE BUT OTHER IS MORE CONCISE
-					//					char[] hexChars = new char[4];
-					//					for (int i = 0; i < 4; i++) {
-					//						next();
-					//						hexChars[i] = characters[index];
-					//					}
-					//					try {
-					//						sb.append((char) Integer.parseInt(new String(hexChars), 16));
-					//					} catch (NumberFormatException e) {
-					//						throw invalidJson("Invalid hexidecimal digits");
-					//					}
-					try {
-						next(); //Move to first digit
-						sb.append((char) Integer.parseInt(substring(index, index + 4), 16));
-						next();
-						next();
-						next();
-					} catch (NumberFormatException e) {
-						throw invalidJson("Invalid hexidecimal digits");
-					}
-					break;
-				default:
-					throw invalidJson("Invalid escape sequence");
-				}
-			} else if (characters[index] < 0x20) { //Space
-				throw invalidJson("Unescaped character");
-			} else {
-				sb.append(characters[index]);
-			}
+			//TODO CHARACTER CHECK
+			sb.append(characters[index]);
 			next();
 		}
-		if (hasNext()) next();//Move cursor passed closing quotation
+		if (hasNext()) next();
 		return new JsonString(sb.toString());
+
+		//		next(); //Skip indicator
+		//
+		//		StringBuilder sb = new StringBuilder();
+		//		while (characters[index] != '"') {
+		//			if (characters[index] == '\\') {
+		//				next();
+		//				switch (characters[index]) {
+		//				case '"':
+		//				case '/':
+		//				case '\\':
+		//					sb.append(characters[index]);
+		//					break;
+		//				case 'b':
+		//					sb.append('\b');
+		//					break;
+		//				case 'f':
+		//					sb.append('\f');
+		//					break;
+		//				case 'n':
+		//					sb.append('\n');
+		//					break;
+		//				case 'r':
+		//					sb.append('\r');
+		//					break;
+		//				case 't':
+		//					sb.append('\t');
+		//					break;
+		//				case 'u':
+		//					//SIMILAR PERFORMANCE BUT OTHER IS MORE CONCISE
+		//					//					char[] hexChars = new char[4];
+		//					//					for (int i = 0; i < 4; i++) {
+		//					//						next();
+		//					//						hexChars[i] = characters[index];
+		//					//					}
+		//					//					try {
+		//					//						sb.append((char) Integer.parseInt(new String(hexChars), 16));
+		//					//					} catch (NumberFormatException e) {
+		//					//						throw invalidJson("Invalid hexidecimal digits");
+		//					//					}
+		//					try {
+		//						next(); //Move to first digit
+		//						sb.append((char) Integer.parseInt(substring(index, index + 4), 16));
+		//						next();
+		//						next();
+		//						next();
+		//					} catch (NumberFormatException e) {
+		//						throw invalidJson("Invalid hexidecimal digits");
+		//					}
+		//					break;
+		//				default:
+		//					throw invalidJson("Invalid escape sequence");
+		//				}
+		//			} else if (characters[index] < 0x20) { //Space
+		//				throw invalidJson("Unescaped character");
+		//			} else {
+		//				sb.append(characters[index]);
+		//			}
+		//			next();
+		//		}
+		//		if (hasNext()) next();//Move cursor passed closing quotation
+		//		return new JsonString(sb.toString());
 	}
 
 	private JsonNumber readNumber() {
@@ -261,8 +271,8 @@ public final class JsonParser {
 	/**
 	 * @return true if there are more characters that can be read and false if there are not
 	 */
-	private boolean hasNext() {
-		return index + 1 < length;
+	private final boolean hasNext() {
+		return index < length - 1;
 	}
 
 	/**
@@ -291,19 +301,19 @@ public final class JsonParser {
 			next();
 	}
 
-	/**
-	 * @param from
-	 *            the initial index (inclusive)
-	 * @param to
-	 *            the end index (exclusive)
-	 * @return a substring of the given json text
-	 */
-	private String substring(final int from, final int to) {
-		int size = to - from;
-		char[] chars = new char[size];
-		System.arraycopy(characters, from, chars, 0, size);
-		return new String(chars);
-	}
+	//	/**
+	//	 * @param from
+	//	 *            the initial index (inclusive)
+	//	 * @param to
+	//	 *            the end index (exclusive)
+	//	 * @return a substring of the given json text
+	//	 */
+	//	private String substring(final int from, final int to) {
+	//		int size = to - from;
+	//		char[] chars = new char[size];
+	//		System.arraycopy(characters, from, chars, 0, size);
+	//		return new String(chars);
+	//	}
 
 	//Exceptions
 	private InvalidJsonException expected(String expected) {

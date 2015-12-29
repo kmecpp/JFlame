@@ -61,6 +61,12 @@ public class JsonObject extends JsonValue implements IFormattable {
 		return this;
 	}
 
+	public JsonObject add(JsonString name, JsonValue value) {
+		names.add(name.asString());
+		values.add(value);
+		return this;
+	}
+
 	//REMOVE
 	public void remove(String name) {
 		int index = names.indexOf(name);

@@ -25,16 +25,6 @@ public class JsonNull extends JsonValue {
 	}
 
 	@Override
-	public int hashCode() {
-		return JsonNull.class.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return obj == this || obj instanceof JsonNull;
-	}
-
-	@Override
 	public String toString() {
 		return "null";
 	}
