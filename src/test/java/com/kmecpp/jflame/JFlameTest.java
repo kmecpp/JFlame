@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-public class Main {
+public class JFlameTest {
 
 	public static final String JSON_URL = "http://technicpack.net/api/modpack/voltz";
 	public static final String JSON_1 = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
@@ -53,7 +53,18 @@ public class Main {
 		//		com.eclipsesource.json.JsonValue value = com.eclipsesource.json.Json.parse(json);
 		System.out.println("First Parse Time: " + (System.currentTimeMillis() - start) + "ms");
 		System.out.println("Parsed: " + value);
-		runBenchmark(json);
+		//		runBenchmark(json);
+
+		//		System.out.println("Starting string speed test...");
+		//		StringReader reader = new StringReader(JSON_HUGE);
+		//		char c;
+		//		System.out.print("READER: ");
+		//		for (int i = 0; i < JSON_HUGE.length(); i++) {
+		//			c = (char) reader.read();
+		//		}
+		//		while ((c = (char) reader.read()) != -1) {
+		//		}
+		System.out.println("DONE!");
 
 		//		String json = JSON_HUGE;
 		//		System.out.println("ORIGIN:");
@@ -87,7 +98,7 @@ public class Main {
 				//				JsonValue value = Json.parse(JSON_HUGE);
 
 				long start = System.nanoTime();
-				Json.parse(json); // 280
+				//				Json.parse(json); // 280
 				//				new JsonSpeedParser(json).parse(); // 260
 				//				new com.google.gson.JsonParser().parse(json); //260
 				//				com.eclipsesource.json.Json.parse(json); // 210
