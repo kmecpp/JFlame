@@ -1,7 +1,5 @@
 # JFlame
-A lightweight and extremely fast JSON parser and generator. This project aims to provide all the tools necessary to quickly and effectively create applications utilizing JSON. To achieve this, the API was designed to be as simple and intuitive as possible. 
-
-Also give credit to ralfstx, as a lot of the ideas for the parser came from his [minimal-json](https://github.com/ralfstx/minimal-json).
+A lightweight and extremely fast JSON parser and generator. This project aims to provide all the tools necessary to quickly and effectively create applications utilizing JSON. The JFlame's main goal is simply raw power, it's designed to run as fast as possible and as a result, a lot of the ideas for the parser came from ralfstx's [minimal-json](https://github.com/ralfstx/minimal-json). The API was designed to be as simple and intuitive as possible but still include everything you need to create, and manipulate simple JSON.
 
 ##Examples:
 
