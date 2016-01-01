@@ -163,52 +163,39 @@ public final class JsonParser {
 	}
 
 	private JsonNumber readNumber() {
-		//		StringBuilder sb = new StringBuilder();
-
 		int startIndex = index;
 		if (characters[index] == '-') {
-			//			sb.append('-');
 			next();
 		}
 		//Read integer part
 		if (characters[index] == '0') {
-			//			sb.append(characters[index]);
 			next(); //Should be only one leading zero for decimals
 		} else {
 			while (isDigit()) {
-				//				sb.append(characters[index]);
 				next();
 			}
 		}
 
-		//		//Read fraction
-		//		if (characters[index] == '.') {
-		//			//			sb.append(characters[index]);
-		//			next();
-		//
-		//			while (isDigit()) {
-		//				//				sb.append(characters[index]);
-		//				next();
-		//			}
-		//		}
-		//
-		//		//Read exponent
-		//		if (characters[index] == 'e' || characters[index] == 'E') {
-		//			//			sb.append(characters[index]);
-		//			next();
-		//
-		//			if (characters[index] == '+' || characters[index] == '-') {
-		//				//				sb.append(characters[index]);
-		//				next();
-		//			}
-		//
-		//			while (isDigit()) {
-		//				//				sb.append(characters[index]);
-		//				next();
-		//			}
-		//		}
-		return new JsonNumber(substring(startIndex, index));
+		//Read fraction
+		if (characters[index] == '.') {
+			next();
 
+			while (isDigit()) {
+				next();
+			}
+		}
+
+		//Read exponent
+		if (characters[index] == 'e' || characters[index] == 'E') {
+			next();
+			if (characters[index] == '+' || characters[index] == '-') {
+				next();
+			}
+			while (isDigit()) {
+				next();
+			}
+		}
+		return new JsonNumber(substring(startIndex, index));
 	}
 
 	//UTILITY METHODS
