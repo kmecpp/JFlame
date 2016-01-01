@@ -18,6 +18,8 @@ public final class JsonParser {
 	private int line = 1;
 	private int column = 1;
 
+	//	private StringBuilder capture = new StringBuilder();
+
 	public JsonParser(String json) {
 		try {
 			Field field = String.class.getDeclaredField("value");//Faster than .charAt() for longer Strings
@@ -118,123 +120,94 @@ public final class JsonParser {
 	}
 
 	private JsonString readString() {
-		StringBuilder sb = new StringBuilder();
+		//		StringBuilder sb = new StringBuilder();
 		next();
-		while (characters[index] != '"') {
-			//TODO CHARACTER CHECK
-			sb.append(characters[index]);
+		int startIndex = index;
+		while (characters[index] != '"' || characters[index] == '\\') {
+			//TODO Fix Strings: Major performance issue. Currently nothing in the text is parsed, everything is just read directly into a JsonString
+
+			//			if (characters[index - 1] == '\\') {
+			//				//UNICODE CHAR
+			//				if (characters[index] == 'u') {
+			//					try {
+			//						next();
+			//						capture.append(substring(startIndex, index - 2) + ((char) Integer.parseInt(substring(index, index + 4), 16)));
+			//						next();
+			//						next();
+			//						next();
+			//						next();
+			//						startIndex = index;
+			//					} catch (NumberFormatException e) {
+			//						throw invalidJson("Invalid hexidecimal digits");
+			//					}
+			//				}
+			//				//SOLIDUS
+			//				else if (characters[index] == '/') {
+			//					next();
+			//					capture.append(substring(startIndex, index - 2) + "/");
+			//					startIndex = index;
+			//				}
+			//				//REVERSE SOLIDUS
+			//				else if (characters[index] == '\\') {
+			//					next();
+			//					capture.append(substring(startIndex, index - 2) + "\\");
+			//					startIndex = index;
+			//				}
+			//				//TODO Parse control characters or no? For now they are just passed directly into the String
+			//			}
 			next();
 		}
-		if (hasNext()) next();
-		return new JsonString(sb.toString());
-
-		//		next(); //Skip indicator
-		//
-		//		StringBuilder sb = new StringBuilder();
-		//		while (characters[index] != '"') {
-		//			if (characters[index] == '\\') {
-		//				next();
-		//				switch (characters[index]) {
-		//				case '"':
-		//				case '/':
-		//				case '\\':
-		//					sb.append(characters[index]);
-		//					break;
-		//				case 'b':
-		//					sb.append('\b');
-		//					break;
-		//				case 'f':
-		//					sb.append('\f');
-		//					break;
-		//				case 'n':
-		//					sb.append('\n');
-		//					break;
-		//				case 'r':
-		//					sb.append('\r');
-		//					break;
-		//				case 't':
-		//					sb.append('\t');
-		//					break;
-		//				case 'u':
-		//					//SIMILAR PERFORMANCE BUT OTHER IS MORE CONCISE
-		//					//					char[] hexChars = new char[4];
-		//					//					for (int i = 0; i < 4; i++) {
-		//					//						next();
-		//					//						hexChars[i] = characters[index];
-		//					//					}
-		//					//					try {
-		//					//						sb.append((char) Integer.parseInt(new String(hexChars), 16));
-		//					//					} catch (NumberFormatException e) {
-		//					//						throw invalidJson("Invalid hexidecimal digits");
-		//					//					}
-		//					try {
-		//						next(); //Move to first digit
-		//						sb.append((char) Integer.parseInt(substring(index, index + 4), 16));
-		//						next();
-		//						next();
-		//						next();
-		//					} catch (NumberFormatException e) {
-		//						throw invalidJson("Invalid hexidecimal digits");
-		//					}
-		//					break;
-		//				default:
-		//					throw invalidJson("Invalid escape sequence");
-		//				}
-		//			} else if (characters[index] < 0x20) { //Space
-		//				throw invalidJson("Unescaped character");
-		//			} else {
-		//				sb.append(characters[index]);
-		//			}
-		//			next();
-		//		}
-		//		if (hasNext()) next();//Move cursor passed closing quotation
-		//		return new JsonString(sb.toString());
+		next(); //Skip closing quotation
+		//		return capture.length() == 0 ? new JsonString(substring(startIndex, index - 1)) : new JsonString(capture.append(substring(startIndex, index - 1)).toString());
+		return new JsonString(substring(startIndex, index - 1));
 	}
 
 	private JsonNumber readNumber() {
-		StringBuilder sb = new StringBuilder();
+		//		StringBuilder sb = new StringBuilder();
+
+		int startIndex = index;
 		if (characters[index] == '-') {
-			sb.append('-');
+			//			sb.append('-');
 			next();
 		}
 		//Read integer part
 		if (characters[index] == '0') {
-			sb.append(characters[index]);
-			next();
+			//			sb.append(characters[index]);
+			next(); //Should be only one leading zero for decimals
 		} else {
 			while (isDigit()) {
-				sb.append(characters[index]);
+				//				sb.append(characters[index]);
 				next();
 			}
 		}
 
-		//Read exponent
-		if (characters[index] == 'e' || characters[index] == 'E') {
-			sb.append(characters[index]);
-			next();
-
-			if (characters[index] == '+' || characters[index] == '-') {
-				sb.append(characters[index]);
-				next();
-			}
-
-			while (isDigit()) {
-				sb.append(characters[index]);
-				next();
-			}
-
-		}
-		//Read fraction
-		else if (characters[index] == '.') {
-			sb.append(characters[index]);
-			next();
-
-			while (isDigit()) {
-				sb.append(characters[index]);
-				next();
-			}
-		}
-		return new JsonNumber(sb.toString());
+		//		//Read fraction
+		//		if (characters[index] == '.') {
+		//			//			sb.append(characters[index]);
+		//			next();
+		//
+		//			while (isDigit()) {
+		//				//				sb.append(characters[index]);
+		//				next();
+		//			}
+		//		}
+		//
+		//		//Read exponent
+		//		if (characters[index] == 'e' || characters[index] == 'E') {
+		//			//			sb.append(characters[index]);
+		//			next();
+		//
+		//			if (characters[index] == '+' || characters[index] == '-') {
+		//				//				sb.append(characters[index]);
+		//				next();
+		//			}
+		//
+		//			while (isDigit()) {
+		//				//				sb.append(characters[index]);
+		//				next();
+		//			}
+		//		}
+		return new JsonNumber(substring(startIndex, index));
 
 	}
 
@@ -247,7 +220,7 @@ public final class JsonParser {
 	 *            the char to test
 	 * @return true if the current character is equal to c and false if it's not
 	 */
-	private boolean readChar(final char c) {
+	private boolean readChar(char c) {
 		next();
 		return characters[index - 1] == c;
 	}
@@ -289,7 +262,7 @@ public final class JsonParser {
 	 *            the character to test
 	 * @return true if the specified character is whitespace and false if it's not
 	 */
-	private boolean isWhitespace(final char c) {
+	private boolean isWhitespace(char c) {
 		return c == ' ' || c == '\n' || c == '\t' || c == '\r';
 	}
 
@@ -301,19 +274,19 @@ public final class JsonParser {
 			next();
 	}
 
-	//	/**
-	//	 * @param from
-	//	 *            the initial index (inclusive)
-	//	 * @param to
-	//	 *            the end index (exclusive)
-	//	 * @return a substring of the given json text
-	//	 */
-	//	private String substring(final int from, final int to) {
-	//		int size = to - from;
-	//		char[] chars = new char[size];
-	//		System.arraycopy(characters, from, chars, 0, size);
-	//		return new String(chars);
-	//	}
+	/**
+	 * @param from
+	 *            the initial index (inclusive)
+	 * @param to
+	 *            the end index (exclusive)
+	 * @return a substring of the given json text
+	 */
+	private String substring(int from, int to) {
+		int size = to - from;
+		char[] chars = new char[size];
+		System.arraycopy(characters, from, chars, 0, size);
+		return new String(chars);
+	}
 
 	//Exceptions
 	private InvalidJsonException expected(String expected) {
