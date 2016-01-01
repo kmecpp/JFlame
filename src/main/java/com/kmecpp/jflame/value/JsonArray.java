@@ -121,7 +121,7 @@ public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonV
 
 		final int length = values.size();
 		for (int i = 0; i < length; i++) {
-			sb.append(values.get(i));
+			sb.append(values.get(i).toString());
 			if (i < length - 1) sb.append(",");
 		}
 
