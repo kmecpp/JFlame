@@ -28,7 +28,30 @@ public class JsonObject extends JsonValue implements IFormattable {
 		return this;
 	}
 
-	//impl. add, set, remove, get
+	//MAP METHODS
+	public boolean containsName(String name) {
+		return names.indexOf(name) > -1;
+	}
+
+	public boolean containsValue(JsonValue value) {
+		return values.indexOf(value) > -1;
+	}
+
+	public int size() {
+		return names.size();
+	}
+
+	public boolean isEmpty() {
+		return size() == 0;
+	}
+
+	public List<String> getNames() {
+		return Collections.unmodifiableList(names);
+	}
+
+	public List<JsonValue> getValues() {
+		return Collections.unmodifiableList(values);
+	}
 
 	//ADD
 	public JsonObject add(String name, boolean value) {
@@ -131,31 +154,6 @@ public class JsonObject extends JsonValue implements IFormattable {
 	public JsonObject setValue(String name, JsonValue value) {
 		values.set(names.indexOf(name), value);
 		return this;
-	}
-
-	//MAP METHODS
-	public boolean containsName(String name) {
-		return name.indexOf(name) != -1;
-	}
-
-	public boolean containsValue(JsonValue value) {
-		return values.indexOf(value) != -1;
-	}
-
-	public int size() {
-		return names.size();
-	}
-
-	public boolean isEmpty() {
-		return size() == 0;
-	}
-
-	public List<String> getNames() {
-		return Collections.unmodifiableList(names);
-	}
-
-	public List<JsonValue> getValues() {
-		return Collections.unmodifiableList(values);
 	}
 
 	@Override

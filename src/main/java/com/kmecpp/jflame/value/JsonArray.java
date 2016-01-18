@@ -116,14 +116,22 @@ public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonV
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("[");
+		StringBuilder sb = new StringBuilder("[");
 
-		final int length = values.size();
-		for (int i = 0; i < length; i++) {
-			sb.append(values.get(i).toString());
-			if (i < length - 1) sb.append(",");
+		Iterator<JsonValue> iterator = values.iterator();
+
+		boolean first = true;
+		while (iterator.hasNext()) {
+			if (!first) sb.append(",");
+			sb.append(iterator.next().toString());
+			if (first) first = false;
 		}
+
+		//		final int length = values.size();
+		//		for (int i = 0; i < length; i++) {
+		//			sb.append(values.get(i).toString());
+		//			if (i < length - 1) sb.append(",");
+		//		}
 
 		return sb.append("]").toString();
 	}
@@ -135,8 +143,7 @@ public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonV
 
 	@Override
 	public String getFormatted(final String indent) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("[");
+		StringBuilder sb = new StringBuilder("[");
 
 		final int length = values.size();
 		if (length == 0) return sb.append("]").toString();
