@@ -185,8 +185,8 @@ public class JsonObject extends JsonValue implements IFormattable {
 			String name = names.get(i);
 			JsonValue value = values.get(i);
 			if (value instanceof IFormattable) { //Objects or Arrays
-				IFormattable formattable = (IFormattable) value;
-				String[] lines = formattable.getFormatted().split("\n");
+				//TODO Performance issue
+				String[] lines = ((IFormattable) value).getFormatted().split("\n");
 				sb.append("\n" + indent + "\"" + name + "\": " + lines[0]);
 				for (int line = 1; line < lines.length; line++) {
 					sb.append("\n" + indent + lines[line]);
