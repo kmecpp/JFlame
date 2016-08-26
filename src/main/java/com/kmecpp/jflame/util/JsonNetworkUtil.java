@@ -96,7 +96,8 @@ public class JsonNetworkUtil {
 	}
 
 	/**
-	 * Posts only the raw JSON text to the URL and returns the response as a string
+	 * Posts only the raw JSON text to the URL and returns the response as a
+	 * string
 	 * 
 	 * @param url
 	 *            the URL to post to

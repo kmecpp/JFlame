@@ -27,7 +27,9 @@ public final class JsonParser {
 			this.characters = (char[]) field.get(json);
 			this.length = characters.length;
 
-			if (length == 0) throw invalidJson("Empty Json");
+			if (length == 0) {
+				throw invalidJson("Empty Json");
+			}
 		} catch (IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			throw new Error("Error caught reading String class data");
 		}
@@ -38,7 +40,9 @@ public final class JsonParser {
 
 		//Verify no remaining text
 		skipWhitespace();
-		if (hasNext()) throw expected("END_OF_FILE");
+		if (hasNext()) {
+			throw expected("END_OF_FILE");
+		}
 
 		return result;
 	}
@@ -93,7 +97,7 @@ public final class JsonParser {
 
 		do {
 			skipWhitespace();
-			array.addValue(readValue());
+			array.add(readValue());
 			skipWhitespace(); //After value
 		} while (readChar(','));//This moves cursor passed end-array on last iteration
 		if (characters[index - 1] != ']') throw expected("END_ARRAY");
@@ -201,7 +205,9 @@ public final class JsonParser {
 	//UTILITY METHODS
 
 	/**
-	 * Reads the current character in the character array and tests whether or not it is equal to the given character, and then increments the index if the character was read successfully
+	 * Reads the current character in the character array and tests whether or
+	 * not it is equal to the given character, and then increments the index if
+	 * the character was read successfully
 	 * 
 	 * @param c
 	 *            the char to test
@@ -213,10 +219,13 @@ public final class JsonParser {
 	}
 
 	/**
-	 * Moves the cursor to the next position, increasing both the index, column or line as necessary
+	 * Moves the cursor to the next position, increasing both the index, column
+	 * or line as necessary
 	 * 
 	 * @throws InvalidJsonException
-	 *             if the cursor is already end of the file, this allows a one character buffer at index == length allowing the cursor to be read passed the last character all the way to the end
+	 *             if the cursor is already end of the file, this allows a one
+	 *             character buffer at index == length allowing the cursor to be
+	 *             read passed the last character all the way to the end
 	 */
 	private void next() {
 		index++;
@@ -229,14 +238,16 @@ public final class JsonParser {
 	}
 
 	/**
-	 * @return true if there are more characters that can be read and false if there are not
+	 * @return true if there are more characters that can be read and false if
+	 *         there are not
 	 */
 	private final boolean hasNext() {
 		return index < length - 1;
 	}
 
 	/**
-	 * Reads the current character in the character array and tests whether or not it is equal to the given character without moving the cursor
+	 * Reads the current character in the character array and tests whether or
+	 * not it is equal to the given character without moving the cursor
 	 * 
 	 * @return true if the current character is a digit and false if it's not
 	 */
@@ -247,7 +258,8 @@ public final class JsonParser {
 	/**
 	 * @param c
 	 *            the character to test
-	 * @return true if the specified character is whitespace and false if it's not
+	 * @return true if the specified character is whitespace and false if it's
+	 *         not
 	 */
 	private boolean isWhitespace(char c) {
 		return c == ' ' || c == '\n' || c == '\t' || c == '\r';
@@ -283,4 +295,5 @@ public final class JsonParser {
 	private InvalidJsonException invalidJson(String message) {
 		return new InvalidJsonException(message, line, column);
 	}
+
 }

@@ -5,18 +5,21 @@ import com.kmecpp.jflame.value.JsonBoolean;
 import com.kmecpp.jflame.value.JsonNull;
 import com.kmecpp.jflame.value.JsonNumber;
 import com.kmecpp.jflame.value.JsonObject;
+import com.kmecpp.jflame.value.JsonString;
 
 public abstract class JsonValue {
 
 	/**
-	 * @return true if the JsonValue is a {@link JsonObject} and false if it's not
+	 * @return true if the JsonValue is a {@link JsonObject} and false if it's
+	 *         not
 	 */
 	public boolean isObject() {
 		return false;
 	}
 
 	/**
-	 * @return true if the JsonValue is a {@link JsonArray} and false if it's not
+	 * @return true if the JsonValue is a {@link JsonArray} and false if it's
+	 *         not
 	 */
 	public boolean isArray() {
 		return false;
@@ -30,35 +33,40 @@ public abstract class JsonValue {
 	}
 
 	/**
-	 * @return true if the JsonValue is a {@link JsonString} and false if it's not
+	 * @return true if the JsonValue is a {@link JsonString} and false if it's
+	 *         not
 	 */
 	public boolean isString() {
 		return false;
 	}
 
 	/**
-	 * @return true if the JsonValue is a {@link JsonBoolean} and false if it's not
+	 * @return true if the JsonValue is a {@link JsonBoolean} and false if it's
+	 *         not
 	 */
 	public boolean isBoolean() {
 		return false;
 	}
 
 	/**
-	 * @return true if the JsonValue is a {@link JsonBoolean} with a value of true, and false if it's not
+	 * @return true if the JsonValue is a {@link JsonBoolean} with a value of
+	 *         true, and false if it's not
 	 */
 	public boolean isTrue() {
 		return false;
 	}
 
 	/**
-	 * @return true if the JsonValue is a {@link JsonBoolean} with a value of false, and false if it's not
+	 * @return true if the JsonValue is a {@link JsonBoolean} with a value of
+	 *         false, and false if it's not
 	 */
 	public boolean isFalse() {
 		return false;
 	}
 
 	/**
-	 * @return true if the JsonValue is a {@link JsonNumber} and false if it's not
+	 * @return true if the JsonValue is a {@link JsonNumber} and false if it's
+	 *         not
 	 */
 	public boolean isNumber() {
 		return false;
@@ -128,7 +136,8 @@ public abstract class JsonValue {
 	}
 
 	/**
-	 * Gets whether or not the String representation of this JsonValue can be formatted or not
+	 * Gets whether or not the String representation of this JsonValue can be
+	 * formatted or not
 	 * 
 	 * @return true if the JsonValue is formattable and false if it's not
 	 */
@@ -138,4 +147,5 @@ public abstract class JsonValue {
 
 	@Override
 	public abstract String toString();
+
 }

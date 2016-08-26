@@ -2,8 +2,8 @@ package com.kmecpp.jflame;
 
 public interface IFormattable {
 
-	String getFormatted();
+	String toFormattedString();
 
-	String getFormatted(String indent);
+	String toFormattedString(String indent);
 
 }

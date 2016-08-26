@@ -3,15 +3,15 @@ package com.kmecpp.jflame.value;
 import com.kmecpp.jflame.Json;
 import com.kmecpp.jflame.JsonValue;
 
-public class JsonNull extends JsonValue {
+public final class JsonNull extends JsonValue {
 
-	private static JsonNull value = new JsonNull();
+	private static final JsonNull INSTANCE = new JsonNull();
 
 	private JsonNull() {
 	}
 
 	public static JsonNull getInstance() {
-		return value;
+		return INSTANCE;
 	}
 
 	@Override
@@ -28,4 +28,5 @@ public class JsonNull extends JsonValue {
 	public String toString() {
 		return "null";
 	}
+
 }

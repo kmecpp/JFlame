@@ -55,27 +55,27 @@ public class JsonObject extends JsonValue implements IFormattable {
 
 	//ADD
 	public JsonObject add(String name, boolean value) {
-		return add(name, Json.getValue(value));
+		return add(name, Json.fromBoolean(value));
 	}
 
 	public JsonObject add(String name, String value) {
-		return add(name, Json.getValue(value));
+		return add(name, Json.fromString(value));
 	}
 
 	public JsonObject add(String name, int value) {
-		return add(name, Json.getValue(value));
+		return add(name, Json.fromInt(value));
 	}
 
 	public JsonObject add(String name, long value) {
-		return add(name, Json.getValue(value));
+		return add(name, Json.fromLong(value));
 	}
 
 	public JsonObject add(String name, float value) {
-		return add(name, Json.getValue(value));
+		return add(name, Json.fromFloat(value));
 	}
 
 	public JsonObject add(String name, double value) {
-		return add(name, Json.getValue(value));
+		return add(name, Json.fromDouble(value));
 	}
 
 	public JsonObject add(String name, JsonValue value) {
@@ -99,60 +99,64 @@ public class JsonObject extends JsonValue implements IFormattable {
 
 	//GET
 	public JsonBoolean getBoolean(String name) {
-		return (JsonBoolean) getValue(name);
+		return (JsonBoolean) get(name);
 	}
 
 	public JsonString getString(String name) {
-		return (JsonString) getValue(name);
+		return (JsonString) get(name);
 	}
 
 	public int getInt(String name) {
-		return ((JsonNumber) getValue(name)).asInt();
+		return ((JsonNumber) get(name)).asInt();
 	}
 
 	public long getLong(String name) {
-		return ((JsonNumber) getValue(name)).asLong();
+		return ((JsonNumber) get(name)).asLong();
 	}
 
 	public float getFloat(String name) {
-		return ((JsonNumber) getValue(name)).asFloat();
+		return ((JsonNumber) get(name)).asFloat();
 	}
 
 	public double getDouble(String name) {
-		return ((JsonNumber) getValue(name)).asDouble();
+		return ((JsonNumber) get(name)).asDouble();
 	}
 
-	public JsonValue getValue(String name) {
+	public JsonValue get(String name) {
 		return values.get(names.indexOf(name));
 	}
 
 	//SET
 	public JsonObject setBoolean(String name, boolean value) {
-		return setValue(name, Json.getValue(value));
+		return set(name, Json.fromBoolean(value));
 	}
 
 	public JsonObject setString(String name, String value) {
-		return setValue(name, Json.getValue(value));
+		return set(name, Json.fromString(value));
 	}
 
 	public JsonObject setInt(String name, int value) {
-		return setValue(name, Json.getValue(value));
+		return set(name, Json.fromInt(value));
 	}
 
 	public JsonObject setLong(String name, long value) {
-		return setValue(name, Json.getValue(value));
+		return set(name, Json.fromLong(value));
 	}
 
 	public JsonObject setFloat(String name, float value) {
-		return setValue(name, Json.getValue(value));
+		return set(name, Json.fromFloat(value));
 	}
 
 	public JsonObject setDouble(String name, double value) {
-		return setValue(name, Json.getValue(value));
+		return set(name, Json.fromDouble(value));
 	}
 
-	public JsonObject setValue(String name, JsonValue value) {
-		values.set(names.indexOf(name), value);
+	public JsonObject set(String name, JsonValue value) {
+		int index = names.indexOf(name);
+		if (index == -1) {
+			throw new IllegalArgumentException("Name does not exist!");
+		}
+		values.set(index, value);
 		return this;
 	}
 
@@ -169,12 +173,12 @@ public class JsonObject extends JsonValue implements IFormattable {
 	}
 
 	@Override
-	public String getFormatted() {
-		return getFormatted("  ");
+	public String toFormattedString() {
+		return toFormattedString("  ");
 	}
 
 	@Override
-	public String getFormatted(final String indent) {
+	public String toFormattedString(final String indent) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 
@@ -186,7 +190,7 @@ public class JsonObject extends JsonValue implements IFormattable {
 			JsonValue value = values.get(i);
 			if (value instanceof IFormattable) { //Objects or Arrays
 				//TODO Performance issue
-				String[] lines = ((IFormattable) value).getFormatted().split("\n");
+				String[] lines = ((IFormattable) value).toFormattedString().split("\n");
 				sb.append("\n" + indent + "\"" + name + "\": " + lines[0]);
 				for (int line = 1; line < lines.length; line++) {
 					sb.append("\n" + indent + lines[line]);

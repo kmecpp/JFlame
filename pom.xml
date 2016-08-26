@@ -3,18 +3,27 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.kmecpp</groupId>
 	<artifactId>jflame</artifactId>
-	<version>0.2</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 
 	<name>JFlame</name>
 	<description>A lightweight and extrmely fast JSON parser and generator written in Java</description>
 	<url>http://kmecpp.com</url>
 
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
-				<directory>src/main</directory>
+				<directory>src/main/resources</directory>
 				<excludes>
 					<exclude>**/*.java</exclude>
 				</excludes>

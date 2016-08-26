@@ -7,7 +7,7 @@ public class InvalidJsonException extends RuntimeException {
 	private int column;
 
 	public InvalidJsonException(String message, int line, int column) {
-		super(message + " line: " + line + " column: " + column);
+		super("[" + JFlame.NAME + "]: " + message + " line: " + line + " column: " + column);
 		this.line = line;
 		this.column = column;
 	}
@@ -19,4 +19,5 @@ public class InvalidJsonException extends RuntimeException {
 	public int getColumn() {
 		return column;
 	}
+
 }

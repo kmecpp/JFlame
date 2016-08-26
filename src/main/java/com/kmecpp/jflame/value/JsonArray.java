@@ -32,30 +32,30 @@ public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonV
 
 	//ADD
 	public JsonArray addBoolean(boolean value) {
-		return addValue(Json.getValue(value));
+		return add(Json.fromBoolean(value));
 	}
 
 	public JsonArray addString(String value) {
-		return addValue(Json.getValue(value));
+		return add(Json.fromString(value));
 	}
 
 	public JsonArray addInteger(int value) {
-		return addValue(Json.getValue(value));
+		return add(Json.fromInt(value));
 	}
 
 	public JsonArray addLong(long value) {
-		return addValue(Json.getValue(value));
+		return add(Json.fromLong(value));
 	}
 
 	public JsonArray addFloat(long value) {
-		return addValue(Json.getValue(value));
+		return add(Json.fromLong(value));
 	}
 
 	public JsonArray addDouble(double value) {
-		return addValue(Json.getValue(value));
+		return add(Json.fromDouble(value));
 	}
 
-	public JsonArray addValue(JsonValue value) {
+	public JsonArray add(JsonValue value) {
 		values.add(value);
 		return this;
 	}
@@ -73,30 +73,30 @@ public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonV
 
 	//SET
 	public JsonArray setBoolean(int index, boolean value) {
-		return setValue(index, Json.getValue(value));
+		return set(index, Json.fromBoolean(value));
 	}
 
 	public JsonArray setString(int index, String value) {
-		return setValue(index, Json.getValue(value));
+		return set(index, Json.fromString(value));
 	}
 
 	public JsonArray setInteger(int index, int value) {
-		return setValue(index, Json.getValue(value));
+		return set(index, Json.fromInt(value));
 	}
 
 	public JsonArray setLong(int index, long value) {
-		return setValue(index, Json.getValue(value));
+		return set(index, Json.fromLong(value));
 	}
 
 	public JsonArray setFloat(int index, long value) {
-		return setValue(index, Json.getValue(value));
+		return set(index, Json.fromLong(value));
 	}
 
 	public JsonArray setDouble(int index, double value) {
-		return setValue(index, Json.getValue(value));
+		return set(index, Json.fromDouble(value));
 	}
 
-	public JsonArray setValue(int index, JsonValue value) {
+	public JsonArray set(int index, JsonValue value) {
 		values.set(index, value);
 		return this;
 	}
@@ -137,12 +137,12 @@ public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonV
 	}
 
 	@Override
-	public String getFormatted() {
-		return getFormatted("  ");
+	public String toFormattedString() {
+		return toFormattedString("  ");
 	}
 
 	@Override
-	public String getFormatted(final String indent) {
+	public String toFormattedString(final String indent) {
 		StringBuilder sb = new StringBuilder("[");
 
 		final int length = values.size();
@@ -151,7 +151,7 @@ public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonV
 		for (int i = 0; i < length; i++) {
 			JsonValue value = values.get(i);
 			if (value instanceof IFormattable) {
-				for (String line : ((IFormattable) value).getFormatted().split("\n")) {
+				for (String line : ((IFormattable) value).toFormattedString().split("\n")) {
 					sb.append("\n" + indent + line);
 				}
 				sb.append(i != length - 1 ? "," : "");
@@ -161,4 +161,13 @@ public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonV
 		}
 		return sb.append("\n]").toString();
 	}
+
+	public static JsonArray from(String[] stringArray) {
+		ArrayList<JsonValue> list = new ArrayList<>();//TODO: Find a better way to do this
+		for (String element : stringArray) {
+			list.add(Json.fromString(element));
+		}
+		return new JsonArray(list);
+	}
+
 }

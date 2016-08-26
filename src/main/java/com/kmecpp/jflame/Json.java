@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 
 import com.kmecpp.jflame.util.JsonNetworkUtil;
+import com.kmecpp.jflame.value.JsonArray;
 import com.kmecpp.jflame.value.JsonBoolean;
 import com.kmecpp.jflame.value.JsonNull;
 import com.kmecpp.jflame.value.JsonNumber;
+import com.kmecpp.jflame.value.JsonObject;
 import com.kmecpp.jflame.value.JsonString;
 
 public final class Json {
@@ -20,7 +22,8 @@ public final class Json {
 	}
 
 	/**
-	 * Parses the given JSON string and returns a {@link JsonValue} that represents the data
+	 * Parses the given JSON string and returns a {@link JsonValue} that
+	 * represents the data
 	 * 
 	 * @param json
 	 *            the JSON string to parse
@@ -33,14 +36,15 @@ public final class Json {
 	}
 
 	/**
-	 * Generates a formatted string from a {@link JsonValue}. To generate a compressed string, call jsonValue.toString()
+	 * Generates a formatted string from a {@link JsonValue}. To generate a
+	 * compressed string, call jsonValue.toString()
 	 * 
 	 * @param json
 	 *            the json object to serialize
 	 * @return a formatted String representation of the JSON object
 	 */
 	public static String generate(JsonValue json) {
-		return json.isFormattable() ? ((IFormattable) json).getFormatted() : json.toString();
+		return json.isFormattable() ? ((IFormattable) json).toFormattedString() : json.toString();
 	}
 
 	//NETWORK UTIL
@@ -77,7 +81,8 @@ public final class Json {
 	}
 
 	/**
-	 * Posts only the raw JSON text to the URL and returns the response as a string
+	 * Posts only the raw JSON text to the URL and returns the response as a
+	 * string
 	 * <br>
 	 * Convenience method for {@link JsonNetworkUtil#postJson(URL, JsonValue)}
 	 * 
@@ -110,27 +115,36 @@ public final class Json {
 	}
 
 	//VALUES
-	public static JsonString getValue(String value) {
+	public static JsonArray array() {
+		return new JsonArray();
+	}
+
+	public static JsonObject object() {
+		return new JsonObject();
+	}
+
+	public static JsonString fromString(String value) {
 		return new JsonString(value);
 	}
 
-	public static JsonBoolean getValue(boolean value) {
+	public static JsonBoolean fromBoolean(Boolean value) {
 		return new JsonBoolean(value);
 	}
 
-	public static JsonNumber getValue(int value) {
+	public static JsonNumber fromInt(Integer value) {
 		return new JsonNumber(Integer.toString(value, 10));
 	}
 
-	public static JsonNumber getValue(long value) {
+	public static JsonNumber fromLong(Long value) {
 		return new JsonNumber(Long.toString(value, 10));
 	}
 
-	public static JsonNumber getValue(float value) {
+	public static JsonNumber fromFloat(Float value) {
 		return new JsonNumber(Float.toString(value));
 	}
 
-	public static JsonNumber getValue(double value) {
+	public static JsonNumber fromDouble(Double value) {
 		return new JsonNumber(Double.toString(value));
 	}
+
 }
