@@ -1,7 +1,11 @@
 package com.kmecpp.jflame;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Map;
 
+import com.kmecpp.jflame.util.JsonIO;
 import com.kmecpp.jflame.value.JsonArray;
 import com.kmecpp.jflame.value.JsonBoolean;
 import com.kmecpp.jflame.value.JsonNull;
@@ -43,6 +47,47 @@ public final class Json {
 	 */
 	public static String generate(JsonValue json) {
 		return json.getFormatted();
+	}
+
+	/**
+	 * Reads a {@link JsonValue} from the given URL
+	 * 
+	 * @param url
+	 *            the URL to read from
+	 * @return a {@link JsonValue} representing the text retrieved from the URL
+	 * @throws IOException
+	 *             if an IOException occurs
+	 */
+	public static JsonValue readJson(URL url) throws IOException {
+		return parse(JsonIO.read(url));
+	}
+
+	/**
+	 * Writes the given {@link JsonValue} to the URL
+	 * 
+	 * @param url
+	 *            the URL to write to
+	 * @param json
+	 *            the {@link JsonValue} to write
+	 * @throws IOException
+	 *             if an IOException occurs
+	 */
+	public static void writeJson(URL url, JsonValue json) throws IOException {
+		JsonIO.postUrl(url, json);
+	}
+
+	/**
+	 * Writes the given {@link JsonValue} to the file
+	 * 
+	 * @param file
+	 *            the file to write to
+	 * @param json
+	 *            the {@link JsonValue} to write
+	 * @throws IOException
+	 *             if an IOException occurs
+	 */
+	public static void writeJson(File file, JsonValue json) throws IOException {
+		JsonIO.writeFile(file, json);
 	}
 
 	//VALUES
