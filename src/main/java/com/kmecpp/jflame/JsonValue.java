@@ -10,6 +10,13 @@ import com.kmecpp.jflame.value.JsonString;
 public abstract class JsonValue {
 
 	/**
+	 * Gets the raw backing value for this {@link JsonValue} as an object
+	 * 
+	 * @return this object's value
+	 */
+	public abstract Object get();
+
+	/**
 	 * @return true if the JsonValue is a {@link JsonObject} and false if it's
 	 *         not
 	 */
@@ -142,10 +149,26 @@ public abstract class JsonValue {
 	 * @return true if the JsonValue is formattable and false if it's not
 	 */
 	public boolean isFormattable() {
-		return this instanceof IFormattable;
+		return false;
 	}
 
 	@Override
 	public abstract String toString();
+
+	public String getFormatted(String indent) {
+		return toString();
+	}
+
+	public final String getFormatted() {
+		return getFormatted("\t");
+	}
+
+	public final String toString(boolean format) {
+		return format ? getFormatted() : toString();
+	}
+
+	public final String toString(boolean format, String indent) {
+		return format ? getFormatted(indent) : toString();
+	}
 
 }

@@ -2,20 +2,35 @@ package com.kmecpp.jflame.value;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.kmecpp.jflame.IFormattable;
 import com.kmecpp.jflame.Json;
 import com.kmecpp.jflame.JsonValue;
 
-public class JsonObject extends JsonValue implements IFormattable {
+public class JsonObject extends JsonValue {
 
 	private ArrayList<String> names;
 	private ArrayList<JsonValue> values;
 
 	public JsonObject() {
-		names = new ArrayList<String>();
-		values = new ArrayList<JsonValue>();
+		this.names = new ArrayList<String>();
+		this.values = new ArrayList<JsonValue>();
+	}
+
+	public JsonObject(Map<String, JsonValue> map) {
+		this.names = new ArrayList<>(map.keySet());
+		this.values = new ArrayList<JsonValue>(map.values());
+	}
+
+	@Override
+	public Object get() {
+		HashMap<String, JsonValue> map = new HashMap<>();
+		for (int i = 0; i < names.size(); i++) {
+			map.put(names.get(i), values.get(i));
+		}
+		return map;
 	}
 
 	@Override
@@ -173,12 +188,12 @@ public class JsonObject extends JsonValue implements IFormattable {
 	}
 
 	@Override
-	public String toFormattedString() {
-		return toFormattedString("  ");
+	public boolean isFormattable() {
+		return true;
 	}
 
 	@Override
-	public String toFormattedString(final String indent) {
+	public String getFormatted(String indent) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 
@@ -188,9 +203,9 @@ public class JsonObject extends JsonValue implements IFormattable {
 		for (int i = 0; i < length; i++) {
 			String name = names.get(i);
 			JsonValue value = values.get(i);
-			if (value instanceof IFormattable) { //Objects or Arrays
+			if (value.isFormattable()) { //Objects or Arrays
 				//TODO Performance issue
-				String[] lines = ((IFormattable) value).toFormattedString().split("\n");
+				String[] lines = value.toString(true).split("\n");
 				sb.append("\n" + indent + "\"" + name + "\": " + lines[0]);
 				for (int line = 1; line < lines.length; line++) {
 					sb.append("\n" + indent + lines[line]);

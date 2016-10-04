@@ -11,6 +11,11 @@ public class JsonString extends JsonValue {
 	}
 
 	@Override
+	public Object get() {
+		return value;
+	}
+
+	@Override
 	public boolean isString() {
 		return true;
 	}

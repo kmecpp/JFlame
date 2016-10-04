@@ -199,7 +199,7 @@ public final class JsonParser {
 				next();
 			}
 		}
-		return new JsonNumber(substring(startIndex, index));
+		return JsonNumber.parse(substring(startIndex, index));
 	}
 
 	//UTILITY METHODS

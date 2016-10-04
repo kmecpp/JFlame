@@ -1,8 +1,15 @@
 package com.kmecpp.jflame;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.net.URL;
 
 import org.junit.Test;
+
+import com.kmecpp.jflame.util.JsonIO;
+import com.kmecpp.jflame.value.JsonArray;
 
 public class JsonTest {
 
@@ -29,8 +36,8 @@ public class JsonTest {
 		parse(INT_TEST);
 		parse(NUMBER_TEST);
 		assertEquals(Json.TRUE, parse(TRUE_TEST));
-		assertEquals(Json.FALSE, parse(FALSE_TEST));
-		assertEquals(Json.NULL, parse(NULL_TEST));
+		assertTrue(Json.FALSE == parse(FALSE_TEST));
+		assertTrue(Json.NULL == parse(NULL_TEST));
 	}
 
 	@Test
@@ -39,6 +46,38 @@ public class JsonTest {
 		parse(OBJECT_TEST_2);
 		parse(OBJECT_TEST_3);
 	}
+
+	@Test
+	public void testPerformance() {
+		URL url = getClass().getResource("/users.json");
+		try {
+			//			System.out.println(new JsonArray(new JsonNumber[] { new JsonNumber(1), new JsonNumber(2), new JsonNumber(3) }).getFormatted());
+			//			Json.parse(JsonIO.read(url)).asArray().toString(true);
+			//			Json.parse(JsonIO.read(url)).asArray().toString(false);
+
+			long start = System.currentTimeMillis();
+			JsonArray array = parse(JsonIO.read(url)).asArray();
+			System.out.println("users.json Parse Time: " + (System.currentTimeMillis() - start) + "ms");
+
+			start = System.currentTimeMillis();
+			array.toString(true);
+			System.out.println("users.json Generation Time (Formatted): " + (System.currentTimeMillis() - start) + "ms");
+
+			start = System.currentTimeMillis();
+			array.toString(false);
+			System.out.println("users.json Generation Time (Compressed): " + (System.currentTimeMillis() - start) + "ms");
+		} catch (InvalidJsonException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//	private static String generate(JsonValue value) {
+	//		return generate(value, true);
+	//	}
+	//
+	//	private static String generate(JsonValue value, boolean format) {
+	//		return format ? value.getFormatted() : value.toString();
+	//	}
 
 	private static JsonValue parse(String json) {
 		return Json.parse(json);

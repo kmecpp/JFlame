@@ -1,9 +1,7 @@
 package com.kmecpp.jflame;
 
-import java.io.IOException;
-import java.net.URL;
+import java.util.Map;
 
-import com.kmecpp.jflame.util.JsonNetworkUtil;
 import com.kmecpp.jflame.value.JsonArray;
 import com.kmecpp.jflame.value.JsonBoolean;
 import com.kmecpp.jflame.value.JsonNull;
@@ -44,83 +42,20 @@ public final class Json {
 	 * @return a formatted String representation of the JSON object
 	 */
 	public static String generate(JsonValue json) {
-		return json.isFormattable() ? ((IFormattable) json).toFormattedString() : json.toString();
-	}
-
-	//NETWORK UTIL
-	/**
-	 * Reads and parses a JSON string from a URL
-	 * <br>
-	 * Convenience method for {@link JsonNetworkUtil#readJson(URL)}
-	 * 
-	 * @param url
-	 *            the URL to read from
-	 * @return a {@link JsonValue} representing the URL data
-	 * @throws InvalidJsonException
-	 *             if the data is not valid JSON
-	 * @throws IOException
-	 *             if there was a problem reading from the URL
-	 */
-	public static JsonValue readJsonFromUrl(String url) throws InvalidJsonException, IOException {
-		return JsonNetworkUtil.readJson(new URL(url));
-	}
-
-	/**
-	 * Reads the raw data from a URL
-	 * <br>
-	 * Convenience method for {@link JsonNetworkUtil#readRaw(URL)}
-	 * 
-	 * @param url
-	 *            the URL to read from
-	 * @return the data retrieved from the URL
-	 * @throws IOException
-	 *             if there was a problem reading from the URL
-	 */
-	public static String readFromUrl(String url) throws IOException {
-		return JsonNetworkUtil.readRaw(new URL(url));
-	}
-
-	/**
-	 * Posts only the raw JSON text to the URL and returns the response as a
-	 * string
-	 * <br>
-	 * Convenience method for {@link JsonNetworkUtil#postJson(URL, JsonValue)}
-	 * 
-	 * @param url
-	 *            the URL to post to
-	 * @param value
-	 *            the {@link JsonValue} to post
-	 * @return the response retrieved from the URL
-	 * @throws IOException
-	 *             if there was a problem posting to the URL
-	 */
-	public static String postJsonToUrl(String url, JsonValue value) throws IOException {
-		return JsonNetworkUtil.postJson(new URL(url), value);
-	}
-
-	/**
-	 * Posts the given string to the URL
-	 * Convenience method for {@link JsonNetworkUtil#postRaw(URL, String)}
-	 * 
-	 * @param url
-	 *            the URL to post to
-	 * @param value
-	 *            the data to post
-	 * @return the response retrieved from the URL
-	 * @throws IOException
-	 *             if there was a problem posting to the URL
-	 */
-	public static String postToUrl(String url, String value) throws IOException {
-		return JsonNetworkUtil.postRaw(new URL(url), value);
+		return json.getFormatted();
 	}
 
 	//VALUES
-	public static JsonArray array() {
-		return new JsonArray();
+	public static JsonArray fromList(Iterable<JsonValue> iterable) {
+		return new JsonArray(iterable);
 	}
 
-	public static JsonObject object() {
-		return new JsonObject();
+	public static JsonArray fromArray(JsonValue[] array) {
+		return new JsonArray(array);
+	}
+
+	public static JsonObject fromMap(Map<String, JsonValue> map) {
+		return new JsonObject(map);
 	}
 
 	public static JsonString fromString(String value) {
@@ -132,19 +67,19 @@ public final class Json {
 	}
 
 	public static JsonNumber fromInt(Integer value) {
-		return new JsonNumber(Integer.toString(value, 10));
+		return new JsonNumber(value);
 	}
 
 	public static JsonNumber fromLong(Long value) {
-		return new JsonNumber(Long.toString(value, 10));
+		return new JsonNumber(value);
 	}
 
 	public static JsonNumber fromFloat(Float value) {
-		return new JsonNumber(Float.toString(value));
+		return new JsonNumber(value);
 	}
 
 	public static JsonNumber fromDouble(Double value) {
-		return new JsonNumber(Double.toString(value));
+		return new JsonNumber(value);
 	}
 
 }

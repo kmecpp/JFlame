@@ -1,14 +1,14 @@
 package com.kmecpp.jflame.value;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.kmecpp.jflame.IFormattable;
 import com.kmecpp.jflame.Json;
 import com.kmecpp.jflame.JsonValue;
 
-public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonValue> {
+public class JsonArray extends JsonValue implements Iterable<JsonValue> {
 
 	private List<JsonValue> values;
 
@@ -16,8 +16,25 @@ public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonV
 		this(new ArrayList<JsonValue>());
 	}
 
+	public JsonArray(JsonValue[] values) {
+		this.values = new ArrayList<>(Arrays.asList(values));
+	}
+
 	public JsonArray(ArrayList<JsonValue> values) {
 		this.values = values;
+	}
+
+	public JsonArray(Iterable<JsonValue> values) {
+		this.values = new ArrayList<>();
+		Iterator<JsonValue> iterator = values.iterator();
+		while (iterator.hasNext()) {
+			this.values.add(iterator.next());
+		}
+	}
+
+	@Override
+	public Object get() {
+		return values;
 	}
 
 	@Override
@@ -119,39 +136,26 @@ public class JsonArray extends JsonValue implements IFormattable, Iterable<JsonV
 		StringBuilder sb = new StringBuilder("[");
 
 		Iterator<JsonValue> iterator = values.iterator();
-
-		boolean first = true;
 		while (iterator.hasNext()) {
-			if (!first) sb.append(",");
-			sb.append(iterator.next().toString());
-			if (first) first = false;
+			sb.append(iterator.next().toString() + (iterator.hasNext() ? ", " : ""));
 		}
-
-		//		final int length = values.size();
-		//		for (int i = 0; i < length; i++) {
-		//			sb.append(values.get(i).toString());
-		//			if (i < length - 1) sb.append(",");
-		//		}
 
 		return sb.append("]").toString();
 	}
 
 	@Override
-	public String toFormattedString() {
-		return toFormattedString("  ");
-	}
-
-	@Override
-	public String toFormattedString(final String indent) {
+	public String getFormatted(String indent) {
 		StringBuilder sb = new StringBuilder("[");
 
 		final int length = values.size();
-		if (length == 0) return sb.append("]").toString();
+		if (length == 0) {
+			return sb.append("]").toString();
+		}
 
 		for (int i = 0; i < length; i++) {
 			JsonValue value = values.get(i);
-			if (value instanceof IFormattable) {
-				for (String line : ((IFormattable) value).toFormattedString().split("\n")) {
+			if (value.isFormattable()) {
+				for (String line : value.getFormatted().split("\n")) {
 					sb.append("\n" + indent + line);
 				}
 				sb.append(i != length - 1 ? "," : "");

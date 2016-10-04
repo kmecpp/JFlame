@@ -1,7 +1,8 @@
 package com.kmecpp.jflame;
 
-@SuppressWarnings("serial")
 public class InvalidJsonException extends RuntimeException {
+
+	private static final long serialVersionUID = -8119107969701834012L;
 
 	private int line;
 	private int column;

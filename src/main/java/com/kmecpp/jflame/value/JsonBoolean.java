@@ -11,6 +11,11 @@ public class JsonBoolean extends JsonValue {
 	}
 
 	@Override
+	public Object get() {
+		return value;
+	}
+
+	@Override
 	public boolean isTrue() {
 		return value;
 	}

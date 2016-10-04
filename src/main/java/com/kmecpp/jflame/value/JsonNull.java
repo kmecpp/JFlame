@@ -15,6 +15,11 @@ public final class JsonNull extends JsonValue {
 	}
 
 	@Override
+	public Object get() {
+		return getInstance();
+	}
+
+	@Override
 	public boolean isNull() {
 		return true;
 	}
