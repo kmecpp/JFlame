@@ -88,7 +88,7 @@ public class JsonIO {
 		return writeUrl(url, json, true);
 	}
 
-	private static String writeUrl(URL url, JsonValue json, boolean readResponse) throws IOException {
+	public static String writeUrl(URL url, JsonValue json, boolean readResponse) throws IOException {
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("POST");
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0");
@@ -110,7 +110,7 @@ public class JsonIO {
 	 * @throws IOException
 	 *             if an IOException occurs
 	 */
-	private static String read(InputStream inputStream) throws IOException {
+	public static String read(InputStream inputStream) throws IOException {
 		InputStreamReader reader = new InputStreamReader(inputStream);
 		StringWriter sw = new StringWriter();
 		char[] buffer = new char[4096];

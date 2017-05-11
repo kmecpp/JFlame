@@ -83,63 +83,63 @@ public abstract class JsonValue {
 	 * @return the current JsonValue as a {@link JsonObject}
 	 */
 	public JsonObject asObject() {
-		throw new IllegalStateException("Not a JSON object");
+		throw new IllegalStateException("Not a JSON object: '" + this + "'");
 	}
 
 	/**
 	 * @return the current JsonValue as a {@link JsonArray}
 	 */
 	public JsonArray asArray() {
-		throw new IllegalStateException("Not a JSON array");
+		throw new IllegalStateException("Not a JSON array: '" + this + "'");
 	}
 
 	/**
 	 * @return the current JsonValue as a {@link JsonNull}
 	 */
 	public JsonNull asNull() {
-		throw new IllegalStateException("Not null");
+		throw new IllegalStateException("Not null: '" + this + "'");
 	}
 
 	/**
 	 * @return the current JsonValue as a boolean
 	 */
 	public boolean asBoolean() {
-		throw new IllegalStateException("Not a JSON array");
+		throw new IllegalStateException("Not a JSON array: '" + this + "'");
 	}
 
 	/**
 	 * @return the current JsonValue as a String
 	 */
 	public String asString() {
-		throw new IllegalStateException("Not a String");
+		throw new IllegalStateException("Not a String: '" + this + "'");
 	}
 
 	/**
 	 * @return the current JsonValue as an int
 	 */
 	public int asInt() {
-		throw new IllegalStateException("Not an integer");
+		throw new IllegalStateException("Not an integer: '" + this + "'");
 	}
 
 	/**
 	 * @return the current JsonValue as a long
 	 */
 	public long asLong() {
-		throw new IllegalStateException("Not a long");
+		throw new IllegalStateException("Not a long: '" + this + "'");
 	}
 
 	/**
 	 * @return the current JsonValue as a float
 	 */
 	public float asFloat() {
-		throw new IllegalStateException("Not a float");
+		throw new IllegalStateException("Not a float: '" + this + "'");
 	}
 
 	/**
 	 * @return the current JsonValue as a double
 	 */
 	public double asDouble() {
-		throw new IllegalStateException("Not a double");
+		throw new IllegalStateException("Not a double: '" + this + "'");
 	}
 
 	/**
@@ -155,10 +155,22 @@ public abstract class JsonValue {
 	@Override
 	public abstract String toString();
 
+	/**
+	 * Gets the formatted version of the value indented by the given String
+	 * 
+	 * @param indent
+	 *            the indent to use
+	 * @return the formatted value
+	 */
 	public String getFormatted(String indent) {
 		return toString();
 	}
 
+	/**
+	 * Gets the formatted version of the value indented with a tab
+	 * 
+	 * @return the formatted value
+	 */
 	public final String getFormatted() {
 		return getFormatted("\t");
 	}

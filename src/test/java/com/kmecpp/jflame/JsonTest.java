@@ -4,11 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.net.URL;
 
 import org.junit.Test;
 
-import com.kmecpp.jflame.util.JsonIO;
 import com.kmecpp.jflame.value.JsonArray;
 
 public class JsonTest {
@@ -49,14 +47,14 @@ public class JsonTest {
 
 	@Test
 	public void testPerformance() {
-		URL url = getClass().getResource("/users.json");
+		String path = "src/test/java/users.json"; //getClass().getResource("/users.json");
 		try {
 			//			System.out.println(new JsonArray(new JsonNumber[] { new JsonNumber(1), new JsonNumber(2), new JsonNumber(3) }).getFormatted());
 			//			Json.parse(JsonIO.read(url)).asArray().toString(true);
 			//			Json.parse(JsonIO.read(url)).asArray().toString(false);
 
 			long start = System.currentTimeMillis();
-			JsonArray array = parse(JsonIO.read(url)).asArray();
+			JsonArray array = Json.read(path).asArray();
 			System.out.println("users.json Parse Time: " + (System.currentTimeMillis() - start) + "ms");
 
 			start = System.currentTimeMillis();

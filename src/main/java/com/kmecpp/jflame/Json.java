@@ -1,6 +1,7 @@
 package com.kmecpp.jflame;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
@@ -50,6 +51,34 @@ public final class Json {
 	}
 
 	/**
+	 * Reads a {@link JsonValue} from the file at the given path
+	 * 
+	 * @param path
+	 *            the path of the file to read from
+	 * @return a {@link JsonValue} representing the text of the contents of the
+	 *         file
+	 * @throws IOException
+	 *             if an IOException occurs
+	 */
+	public static JsonValue read(String path) throws IOException {
+		return read(new File(path));
+	}
+
+	/**
+	 * Reads a {@link JsonValue} from the given File
+	 * 
+	 * @param file
+	 *            the File to read from
+	 * @return a {@link JsonValue} representing the text of the contents of the
+	 *         given file
+	 * @throws IOException
+	 *             if an IOException occurs
+	 */
+	public static JsonValue read(File file) throws IOException {
+		return parse(JsonIO.read(new FileInputStream(file)));
+	}
+
+	/**
 	 * Reads a {@link JsonValue} from the given URL
 	 * 
 	 * @param url
@@ -58,7 +87,7 @@ public final class Json {
 	 * @throws IOException
 	 *             if an IOException occurs
 	 */
-	public static JsonValue readJson(URL url) throws IOException {
+	public static JsonValue read(URL url) throws IOException {
 		return parse(JsonIO.read(url));
 	}
 
@@ -72,7 +101,7 @@ public final class Json {
 	 * @throws IOException
 	 *             if an IOException occurs
 	 */
-	public static void writeJson(URL url, JsonValue json) throws IOException {
+	public static void write(URL url, JsonValue json) throws IOException {
 		JsonIO.postUrl(url, json);
 	}
 
@@ -86,7 +115,7 @@ public final class Json {
 	 * @throws IOException
 	 *             if an IOException occurs
 	 */
-	public static void writeJson(File file, JsonValue json) throws IOException {
+	public static void write(File file, JsonValue json) throws IOException {
 		JsonIO.writeFile(file, json);
 	}
 
