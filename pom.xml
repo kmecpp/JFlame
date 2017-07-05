@@ -10,6 +10,11 @@
 	<description>A lightweight and extrmely fast JSON parser and generator written in Java</description>
 	<url>http://kmecpp.com</url>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
