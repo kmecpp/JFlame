@@ -11,7 +11,7 @@ public class JsonString extends JsonValue {
 	}
 
 	@Override
-	public Object get() {
+	public String get() {
 		return value;
 	}
 

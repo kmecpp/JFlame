@@ -28,7 +28,7 @@ public class JsonNumber extends JsonValue {
 	}
 
 	@Override
-	public Object get() {
+	public Number get() {
 		return value;
 	}
 

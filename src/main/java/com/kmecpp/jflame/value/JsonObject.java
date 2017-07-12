@@ -29,12 +29,8 @@ public class JsonObject extends JsonValue implements Iterable<Entry<String, Json
 	}
 
 	@Override
-	public Object get() {
-		HashMap<String, JsonValue> map = new HashMap<>();
-		for (int i = 0; i < keys.size(); i++) {
-			map.put(keys.get(i), values.get(i));
-		}
-		return map;
+	public HashMap<String, JsonValue> get() {
+		return asMap();
 	}
 
 	@Override
@@ -47,7 +43,7 @@ public class JsonObject extends JsonValue implements Iterable<Entry<String, Json
 		return this;
 	}
 
-	public Map<String, JsonValue> asMap() {
+	public HashMap<String, JsonValue> asMap() {
 		HashMap<String, JsonValue> map = new HashMap<>();
 		for (Entry<String, JsonValue> entry : this) {
 			map.put(entry.getKey(), entry.getValue());
@@ -136,28 +132,36 @@ public class JsonObject extends JsonValue implements Iterable<Entry<String, Json
 	}
 
 	//GET
-	public JsonBoolean getBoolean(String key) {
-		return (JsonBoolean) get(key);
+	public boolean getBoolean(String key) {
+		return get(key).asBoolean();
 	}
 
-	public JsonString getString(String key) {
-		return (JsonString) get(key);
+	public String getString(String key) {
+		return get(key).asString();
 	}
 
 	public int getInt(String key) {
-		return ((JsonNumber) get(key)).asInt();
+		return get(key).asInt();
 	}
 
 	public long getLong(String key) {
-		return ((JsonNumber) get(key)).asLong();
+		return  get(key).asLong();
 	}
 
 	public float getFloat(String key) {
-		return ((JsonNumber) get(key)).asFloat();
+		return get(key).asFloat();
 	}
 
 	public double getDouble(String key) {
-		return ((JsonNumber) get(key)).asDouble();
+		return get(key).asDouble();
+	}
+
+	public JsonObject getObject(String key) {
+		return get(key).asObject();
+	}
+
+	public JsonArray getArray(String key) {
+		return get(key).asArray();
 	}
 
 	public JsonValue get(String key) {
@@ -205,7 +209,9 @@ public class JsonObject extends JsonValue implements Iterable<Entry<String, Json
 		final int length = keys.size();
 		for (int i = 0; i < length; i++) {
 			sb.append("\"" + keys.get(i) + "\":" + values.get(i));
-			if (i < length - 1) sb.append(",");
+			if (i < length - 1) {
+				sb.append(",");
+			}
 		}
 		return sb.append("}").toString();
 	}
@@ -221,14 +227,16 @@ public class JsonObject extends JsonValue implements Iterable<Entry<String, Json
 		sb.append("{");
 
 		final int length = values.size();
-		if (length == 0) return sb.append("}").toString();
+		if (length == 0) {
+			return sb.append("}").toString();
+		}
 
 		for (int i = 0; i < length; i++) {
 			String key = keys.get(i);
 			JsonValue value = values.get(i);
 			if (value.isFormattable()) { //Objects or Arrays
 				//TODO Performance issue
-				String[] lines = value.toString(true).split("\n");
+				String[] lines = value.getFormatted().split("\n");
 				sb.append("\n" + indent + "\"" + key + "\": " + lines[0]);
 				for (int line = 1; line < lines.length; line++) {
 					sb.append("\n" + indent + lines[line]);

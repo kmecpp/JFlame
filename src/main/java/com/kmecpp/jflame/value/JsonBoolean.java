@@ -11,7 +11,7 @@ public class JsonBoolean extends JsonValue {
 	}
 
 	@Override
-	public Object get() {
+	public Boolean get() {
 		return value;
 	}
 

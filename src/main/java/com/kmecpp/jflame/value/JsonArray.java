@@ -144,6 +144,11 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
 	}
 
 	@Override
+	public boolean isFormattable() {
+		return true;
+	}
+
+	@Override
 	public String getFormatted(String indent) {
 		StringBuilder sb = new StringBuilder("[");
 
@@ -154,6 +159,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
 
 		for (int i = 0; i < length; i++) {
 			JsonValue value = values.get(i);
+			//			System.out.println("V: " + value.getFormatted());
 			if (value.isFormattable()) {
 				for (String line : value.getFormatted().split("\n")) {
 					sb.append("\n" + indent + line);

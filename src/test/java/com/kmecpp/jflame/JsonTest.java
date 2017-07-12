@@ -54,7 +54,7 @@ public class JsonTest {
 			//			Json.parse(JsonIO.read(url)).asArray().toString(false);
 
 			long start = System.currentTimeMillis();
-			JsonArray array = Json.read(path).asArray();
+			JsonArray array = Json.parseFile(path).asArray();
 			System.out.println("users.json Parse Time: " + (System.currentTimeMillis() - start) + "ms");
 
 			start = System.currentTimeMillis();

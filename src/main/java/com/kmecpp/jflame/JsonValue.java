@@ -163,6 +163,11 @@ public abstract class JsonValue {
 	 * @return the formatted value
 	 */
 	public String getFormatted(String indent) {
+		if (this instanceof JsonObject) {
+			return asObject().getFormatted();
+		} else if (this instanceof JsonArray) {
+			return asArray().getFormatted();
+		}
 		return toString();
 	}
 
