@@ -60,7 +60,7 @@ public class JsonObject extends JsonValue implements Iterable<Entry<String, Json
 	}
 
 	//MAP METHODS
-	public boolean containskey(String key) {
+	public boolean containsKey(String key) {
 		return keys.indexOf(key) > -1;
 	}
 
