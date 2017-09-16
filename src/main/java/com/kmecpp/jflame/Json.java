@@ -61,7 +61,7 @@ public final class Json {
 	 *             if an IOException occurs
 	 */
 	public static JsonValue parseFile(String path) throws IOException {
-		return parseFile(new File(path));
+		return parse(new File(path));
 	}
 
 	/**
@@ -74,7 +74,7 @@ public final class Json {
 	 * @throws IOException
 	 *             if an IOException occurs
 	 */
-	public static JsonValue parseFile(File file) throws IOException {
+	public static JsonValue parse(File file) throws IOException {
 		return parse(JsonIO.read(new FileInputStream(file)));
 	}
 
@@ -87,7 +87,7 @@ public final class Json {
 	 * @throws IOException
 	 *             if an IOException occurs
 	 */
-	public static JsonValue parseUrl(URL url) throws IOException {
+	public static JsonValue parse(URL url) throws IOException {
 		return parse(JsonIO.read(url));
 	}
 
