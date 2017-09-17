@@ -145,7 +145,7 @@ public class JsonObject extends JsonValue implements Iterable<Entry<String, Json
 	}
 
 	public long getLong(String key) {
-		return  get(key).asLong();
+		return get(key).asLong();
 	}
 
 	public float getFloat(String key) {
