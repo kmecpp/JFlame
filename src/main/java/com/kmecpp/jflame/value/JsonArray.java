@@ -84,6 +84,14 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
 	}
 
 	//GET
+	public JsonValue getFirst() {
+		return values.isEmpty() ? null : values.get(0);
+	}
+
+	public JsonValue getLast() {
+		return values.isEmpty() ? null : values.get(values.size() - 1);
+	}
+
 	public JsonValue get(int index) {
 		return values.get(index);
 	}

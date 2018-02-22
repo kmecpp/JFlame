@@ -1,7 +1,5 @@
 package com.kmecpp.jflame;
 
-import java.lang.reflect.Field;
-
 import com.kmecpp.jflame.value.JsonArray;
 import com.kmecpp.jflame.value.JsonBoolean;
 import com.kmecpp.jflame.value.JsonNull;
@@ -21,18 +19,20 @@ public final class JsonParser {
 	//	private StringBuilder capture = new StringBuilder();
 
 	public JsonParser(String json) {
-		try {
-			Field field = String.class.getDeclaredField("value");//Faster than .charAt() for longer Strings
-			field.setAccessible(true);
-			this.characters = (char[]) field.get(json);
-			this.length = characters.length;
-
-			if (length == 0) {
-				throw invalidJson("Empty Json");
-			}
-		} catch (IllegalAccessException | NoSuchFieldException | SecurityException e) {
-			throw new Error("Error caught reading String class data");
-		}
+		this.characters = json.toCharArray();
+		this.length = characters.length;
+		//		try {
+		//			Field field = String.class.getDeclaredField("value");//Faster than .charAt() for longer Strings
+		//			field.setAccessible(true);
+		//			this.characters = (char[]) field.get(json);
+		//			this.length = characters.length;
+		//
+		//			if (length == 0) {
+		//				throw invalidJson("Empty Json");
+		//			}
+		//		} catch (IllegalAccessException | NoSuchFieldException | SecurityException e) {
+		//			throw new Error("Error caught reading String class data");
+		//		}
 	}
 
 	public JsonValue parse() {
