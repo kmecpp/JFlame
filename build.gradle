@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+
+    id 'eclipse'
+    id 'idea'
+}
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+    testCompile 'com.eclipsesource.minimal-json:minimal-json:0.9.5'
+    testCompile "junit:junit:4.12"
+}

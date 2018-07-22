@@ -83,63 +83,64 @@ public abstract class JsonValue {
 	 * @return the current JsonValue as a {@link JsonObject}
 	 */
 	public JsonObject asObject() {
-		throw new IllegalStateException("Not a JSON object: '" + this + "'");
+		throw stateError("object");
 	}
 
 	/**
 	 * @return the current JsonValue as a {@link JsonArray}
 	 */
 	public JsonArray asArray() {
-		throw new IllegalStateException("Not a JSON array: '" + this + "'");
+		throw stateError("array");
 	}
 
 	/**
 	 * @return the current JsonValue as a {@link JsonNull}
 	 */
 	public JsonNull asNull() {
-		throw new IllegalStateException("Not null: '" + this + "'");
+		throw stateError("null");
 	}
 
 	/**
 	 * @return the current JsonValue as a boolean
 	 */
 	public boolean asBoolean() {
-		throw new IllegalStateException("Not a JSON array: '" + this + "'");
+		throw stateError("boolean");
 	}
 
 	/**
 	 * @return the current JsonValue as a String
 	 */
 	public String asString() {
-		throw new IllegalStateException("Not a String: '" + this + "'");
+		throw stateError("String");
 	}
 
 	/**
 	 * @return the current JsonValue as an int
 	 */
 	public int asInt() {
-		throw new IllegalStateException("Not an integer: '" + this + "'");
+		throw stateError("integer");
 	}
 
 	/**
 	 * @return the current JsonValue as a long
 	 */
 	public long asLong() {
-		throw new IllegalStateException("Not a long: '" + this + "'");
+		throw stateError("long");
 	}
 
 	/**
 	 * @return the current JsonValue as a float
 	 */
 	public float asFloat() {
-		throw new IllegalStateException("Not a float: '" + this + "'");
+		throw stateError("float");
 	}
 
 	/**
 	 * @return the current JsonValue as a double
 	 */
 	public double asDouble() {
-		throw new IllegalStateException("Not a double: '" + this + "'");
+		//		throw new stateErr("double");
+		throw stateError("double");
 	}
 
 	/**
@@ -186,6 +187,16 @@ public abstract class JsonValue {
 
 	public final String toString(boolean format, String indent) {
 		return format ? getFormatted(indent) : toString();
+	}
+
+	private final IllegalStateException stateError(String expected) {
+		//		if (expected.length() <= 0) {
+		//			throw new IllegalArgumentException("Must pass in an expected type!");
+		//		}
+		//		char c = Character.toLowerCase(expected.charAt(0));
+		//		String prefixWord = ((c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') ? "an" : "a");
+		System.err.println(this.getFormatted());
+		return new IllegalStateException("Cannot cast JsonValue to " + expected);
 	}
 
 }
