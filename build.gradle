@@ -5,11 +5,10 @@ plugins {
 	id 'idea'
 
 	id 'maven-publish'
-	id 'signing'
 }
 
 group = "com.kmecpp"
-version = "1.0-SNAPSHOT"
+version = project_version
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
@@ -46,11 +45,14 @@ publishing {
         }
     }
     repositories {
-        maven {
-            // change URLs to point to your repos, e.g. http://my.org/repo
-            def releasesRepoUrl = "https://oss.sonatype.org/content/repositories/releases"
-            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+    	maven {
+    	    credentials {
+    			username = project.properties.mavenUser
+    			password = project.properties.mavenPassword
+    		}
+    		def releasesRepoUrl = "https://oss.sonatype.org/content/repositories/releases"
+    		def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+    		url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
         }
     }
 }

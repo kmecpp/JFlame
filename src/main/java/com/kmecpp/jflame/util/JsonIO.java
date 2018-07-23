@@ -32,11 +32,15 @@ public class JsonIO {
 	}
 
 	/**
-	 * Writes the {@link JsonValue} to the file.
+	 * Writes the {@link JsonValue} to the file. This method method will format
+	 * the JSON in the file.
 	 * 
 	 * @param file
+	 *            the file to write to
 	 * @param json
+	 *            the {@link JsonValue} to write
 	 * @throws IOException
+	 *             if an IO exception occurs while writing the data
 	 */
 	public static void writeFile(File file, JsonValue json) throws IOException {
 		try (FileOutputStream writer = new FileOutputStream(file)) {
@@ -48,8 +52,13 @@ public class JsonIO {
 	 * Writes the {@link JsonValue} to the file.
 	 * 
 	 * @param file
+	 *            the file to write to
 	 * @param json
+	 *            the {@link JsonValue} to write
+	 * @param format
+	 *            whether or not to format the JSON data in the file
 	 * @throws IOException
+	 *             if an IO exception occurs while writing the data
 	 */
 	public static void writeFile(File file, JsonValue json, boolean format) throws IOException {
 		try (FileOutputStream writer = new FileOutputStream(file)) {
@@ -63,8 +72,8 @@ public class JsonIO {
 	 * 
 	 * @param url
 	 *            the URL to post to
-	 * @param value
-	 *            the JsonValue to post
+	 * @param json
+	 *            the {@link JsonValue} to post
 	 * @throws IOException
 	 *             if there was a problem posting to the URL
 	 */
@@ -78,8 +87,8 @@ public class JsonIO {
 	 * 
 	 * @param url
 	 *            the URL to post to
-	 * @param value
-	 *            the JsonValue to post
+	 * @param json
+	 *            the {@link JsonValue} to post
 	 * @return the response retrieved from the URL
 	 * @throws IOException
 	 *             if there was a problem posting to the URL
